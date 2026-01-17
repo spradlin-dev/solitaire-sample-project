@@ -26,5 +26,11 @@ public class LayoutColumn : MonoBehaviour
             Transform card = columnCards[i].transform;
             card.position = new Vector3(this.transform.position.x, this.transform.position.y - (0.3f * i), this.transform.position.z - (0.01f * (i + 1)));
         }
+        if (columnCards.Length > 0)
+        {
+            // always make the top card face up
+            Transform topCard = columnCards[columnCards.Length - 1].transform;
+            topCard.GetComponent<Selectable>().isFaceUp = true;
+        }
     }
 }

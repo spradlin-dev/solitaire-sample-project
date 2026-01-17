@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
+using Unity.VisualScripting;
 
 public class Solitaire : MonoBehaviour
 {
 
     public static string[] suits = new string[] {"H", "C", "D", "S"};
     public static string[] faces = new string[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"};
-    public static List<string> deck;
+    public static List<GameObject> deck;
+    public static List<GameObject> cardsInPlay = new List<GameObject>();
     public GameObject cardPrefab;
     public GameObject tableau;
     public GameObject deckSlot;
@@ -32,10 +34,10 @@ public class Solitaire : MonoBehaviour
         Deal(deck);
     }
 
-    public static List<string> ShuffleDeck(List<string> unshuffledDeck)
+    public static List<GameObject> ShuffleDeck(List<GameObject> unshuffledDeck)
     {
         System.Random r = new System.Random();
-        List<string> shuffledDeck = new List<string>();
+        List<GameObject> shuffledDeck = new List<GameObject>();
         //Step 1: For each remaining unshuffled letter
         for (int n = unshuffledDeck.Count; n > 0; n--)
         {
@@ -43,7 +45,7 @@ public class Solitaire : MonoBehaviour
             int k = r.Next(n);
 
             //Step 3: Place the selected letter in the shuffled collection
-            string temp = unshuffledDeck[k];
+            GameObject temp = unshuffledDeck[k];
             shuffledDeck.Add(temp);
 
             //Step 4: Remove the selected letter from the unshuffled collection
@@ -52,47 +54,45 @@ public class Solitaire : MonoBehaviour
         return shuffledDeck;
     }
 
-    public static List<string> GenerateDeck() 
+    public List<GameObject> GenerateDeck() 
     {
-     List<string> newDeck = new List<string>();
+     List<GameObject> newDeck = new List<GameObject>();
 
     foreach (string s in suits)
     {
         foreach (string f in faces) 
         {
-           newDeck.Add(f+s); 
+                GameObject newCard = Instantiate(cardPrefab);
+                newCard.name = f + s;
+                newDeck.Add(newCard); 
         }
      }
      return newDeck;
     }
 
-    void Deal(List<string> deckTodeal)
+    void Deal(List<GameObject> deckTodeal)
     {
-        float zOffset = 0.01f;
         // deal 28 cards to tableau
         int columnLength = tableau.GetComponent<Columns>().columnObjects.Length;
         for (int i = 0; i < columnLength; i++)
         {
             for (int j = i; j < columnLength; j++)
             {
-                string card = deckTodeal[0];
+                GameObject card = deckTodeal[0];
                 deckTodeal.RemoveAt(0);
                 GameObject column = tableau.GetComponent<Columns>().columnObjects[j];
-                GameObject cardObject = Instantiate(cardPrefab, column.transform.position, Quaternion.identity, column.transform);
-                cardObject.name = card;
+                card.transform.parent = column.transform;
                 if (j == i)
                 {
-                    cardObject.GetComponent<Selectable>().isFaceUp = true;
+                    card.GetComponent<Selectable>().isFaceUp = true;
                 }
 
             }
         }
         // deal remaining cards to deck slot
-        foreach (string card in deckTodeal) 
+        foreach (GameObject card in deckTodeal) 
         {
-            GameObject cardObject = Instantiate(cardPrefab, new Vector3(deckSlot.transform.position.x, deckSlot.transform.position.y, deckSlot.transform.position.z - zOffset), Quaternion.identity, deckSlot.transform);
-            cardObject.name = card; 
-            zOffset += 0.01f;
+            card.transform.parent = deckSlot.transform;
 
         }
     }
@@ -130,6 +130,12 @@ public class Solitaire : MonoBehaviour
             GameObject oldCard = wasteCards[i];
             oldCard.transform.parent = deckSlot.transform;
         }
+    }
+
+    public void AttemptToPlayCard(GameObject card)
+    {
+        // To be implemented
+        print("Attempt to play card: " + card.name);
     }
 
 }
