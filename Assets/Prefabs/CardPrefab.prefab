@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2445087097345176257}
   - component: {fileID: 1325490069237779463}
   - component: {fileID: 3314976352088965927}
-  - component: {fileID: 9199083378036112757}
   m_Layer: 0
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -194,18 +193,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 12.42, y: 17.39}
   m_EdgeRadius: 0
---- !u!114 &9199083378036112757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5467479199338070701}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
