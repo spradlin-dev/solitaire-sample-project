@@ -13,6 +13,7 @@ public class Solitaire : MonoBehaviour
     public GameObject aces;
     public GameObject deckSlot;
     public GameObject wasteSlot;
+    private List<GameObject> cardsInPlay;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,9 +29,15 @@ public class Solitaire : MonoBehaviour
 
     public void PlayCards()
     {
-        List<GameObject> deck = ShuffleDeck(GenerateDeck());
+        if (cardsInPlay != null) {             // clear existing cards
+            foreach (GameObject card in cardsInPlay)
+            {
+                Destroy(card);
+            }
+        }
+        cardsInPlay = ShuffleDeck(GenerateDeck());
 
-        Deal(deck);
+        Deal(cardsInPlay);
     }
 
     public static List<GameObject> ShuffleDeck(List<GameObject> unshuffledDeck)
@@ -71,14 +78,15 @@ public class Solitaire : MonoBehaviour
 
     void Deal(List<GameObject> deckTodeal)
     {
+        List<GameObject> deckToDealCopy = new List<GameObject>(deckTodeal);
         // deal 28 cards to tableau
         int columnLength = tableau.GetComponent<Columns>().columnObjects.Length;
         for (int i = 0; i < columnLength; i++)
         {
             for (int j = i; j < columnLength; j++)
             {
-                GameObject card = deckTodeal[0];
-                deckTodeal.RemoveAt(0);
+                GameObject card = deckToDealCopy[0];
+                deckToDealCopy.RemoveAt(0);
                 GameObject column = tableau.GetComponent<Columns>().columnObjects[j];
                 card.transform.parent = column.transform;
                 if (j == i)
@@ -89,7 +97,7 @@ public class Solitaire : MonoBehaviour
             }
         }
         // deal remaining cards to deck slot
-        foreach (GameObject card in deckTodeal)
+        foreach (GameObject card in deckToDealCopy)
         {
             card.transform.parent = deckSlot.transform;
 

@@ -16,6 +16,12 @@ public class UserInput : MonoBehaviour
     void Update()
     {
         GetMouseClick();
+        // handle new deal with user clicks f5
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            solitaire.PlayCards();
+            this.selectedCard = null;
+        }
     }
 
     void GetMouseClick()
@@ -112,6 +118,7 @@ public class UserInput : MonoBehaviour
             return;
         } else if (this.selectedCard == card && !card.GetComponent<Selectable>().isTopCardInContainer)
         {
+            this.selectedCard = null;
             this.solitaire.AttemptToPlayCardStack(card);
             return;
         }
