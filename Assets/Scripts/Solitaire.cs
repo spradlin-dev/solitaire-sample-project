@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.VisualScripting;
+using System.Collections;
 
 public class Solitaire : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Solitaire : MonoBehaviour
     public GameObject deckSlot;
     public GameObject wasteSlot;
     private List<GameObject> cardsInPlay;
+    public bool isInitialized = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,6 +31,7 @@ public class Solitaire : MonoBehaviour
 
     public void PlayCards()
     {
+        isInitialized = false;
         if (cardsInPlay != null) {             // clear existing cards
             foreach (GameObject card in cardsInPlay)
             {
@@ -37,7 +40,7 @@ public class Solitaire : MonoBehaviour
         }
         cardsInPlay = ShuffleDeck(GenerateDeck());
 
-        Deal(cardsInPlay);
+        StartCoroutine(Deal(cardsInPlay));
     }
 
     public static List<GameObject> ShuffleDeck(List<GameObject> unshuffledDeck)
@@ -76,15 +79,18 @@ public class Solitaire : MonoBehaviour
         return newDeck;
     }
 
-    void Deal(List<GameObject> deckTodeal)
+    IEnumerator Deal(List<GameObject> deckTodeal)
     {
+        WaitForSeconds waitforSeconds = new WaitForSeconds(0.05f);
         List<GameObject> deckToDealCopy = new List<GameObject>(deckTodeal);
         // deal 28 cards to tableau
         int columnLength = tableau.GetComponent<Columns>().columnObjects.Length;
         for (int i = 0; i < columnLength; i++)
         {
+            yield return waitforSeconds;
             for (int j = i; j < columnLength; j++)
             {
+                yield return waitforSeconds;
                 GameObject card = deckToDealCopy[0];
                 deckToDealCopy.RemoveAt(0);
                 GameObject column = tableau.GetComponent<Columns>().columnObjects[j];
@@ -93,13 +99,58 @@ public class Solitaire : MonoBehaviour
                 {
                     card.GetComponent<Selectable>().isFaceUp = true;
                 }
-
             }
         }
         // deal remaining cards to deck slot
         foreach (GameObject card in deckToDealCopy)
         {
             card.transform.parent = deckSlot.transform;
+
+        }
+        isInitialized = true;
+        
+    }
+    public void Solve()
+    {
+        StartCoroutine(AttemptSolve());
+    }
+
+    IEnumerator AttemptSolve()
+    {
+        WaitForSeconds waitforSeconds = new WaitForSeconds(0.05f);
+        GameObject topWasteCard = null;
+        foreach (Transform card in wasteSlot.transform) {
+            topWasteCard = card.gameObject;
+        }
+        if (topWasteCard != null)
+        {
+            yield return waitforSeconds;
+            print("playing waste card"); print(topWasteCard);
+            if (aces.GetComponent<Aces>().TryToPlaceCard(topWasteCard))
+            {
+                Solve();
+            }
+        }
+        foreach (GameObject column in tableau.GetComponent<Columns>().columnObjects)
+        {
+            yield return waitforSeconds;
+
+            GameObject topCard = null;
+
+            foreach (Transform cardInColumn in column.transform)
+            {
+                topCard = cardInColumn.gameObject;
+            }
+            if (topCard == null)
+            {
+                continue;
+            }
+            print("playing card"); print(topCard);
+            if (aces.GetComponent<Aces>().TryToPlaceCard(topCard))
+            {
+                Solve();
+            }
+            // attempt to play card
 
         }
     }
@@ -139,7 +190,7 @@ public class Solitaire : MonoBehaviour
         }
     }
 
-    public void AttemptToPlayCard(GameObject card)
+    public bool AttemptToPlayCard(GameObject card)
     {
         // To be implemented
         print("Attempt to play card: " + card.name);
@@ -150,6 +201,7 @@ public class Solitaire : MonoBehaviour
             print("Could not place card in aces: " + card.name);
             wasPlaced = tableau.GetComponent<Columns>().TryToPlaceCard(card);
         }
+        return wasPlaced;
 
     }
 

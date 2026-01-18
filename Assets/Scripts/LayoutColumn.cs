@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class LayoutColumn : MonoBehaviour
 {
+    private Solitaire solitaire;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        solitaire = FindFirstObjectByType<Solitaire>();
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class LayoutColumn : MonoBehaviour
             float yOffset = Mathf.Min(0.5f, 4f / columnCards.Length);
             card.position = new Vector3(this.transform.position.x, this.transform.position.y - (yOffset * i), this.transform.position.z - (0.01f * (i + 1)));
         }
-        if (columnCards.Length > 0)
+        if (columnCards.Length > 0 && solitaire.isInitialized == true)
         {
             // always make the top card face up
             Transform topCard = columnCards[columnCards.Length - 1].transform;
