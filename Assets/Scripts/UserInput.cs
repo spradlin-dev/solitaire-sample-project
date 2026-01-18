@@ -43,6 +43,10 @@ public class UserInput : MonoBehaviour
                     {
                         HandleStockClick(clickedObject);
                     }
+                    else if (parentObject && parentObject.name.Contains("Ace"))
+                    {
+                        HandleAcesClick(clickedObject);
+                    }
                     else if (parentObject && parentObject.name.Contains("Column"))
                     {
                         HandleTableauClick(clickedObject, parentObject);
@@ -69,6 +73,24 @@ public class UserInput : MonoBehaviour
         print("Stock Slot clicked: " + stockSlot.name);
         this.selectedCard = null;
         solitaire.ResetStockFromWaste();
+    }
+    void HandleAcesClick(GameObject card)
+    {
+        // To be implemented
+        print("Aces clicked: " + card.name);
+        if (!card.GetComponent<Selectable>().isTopCardInContainer)
+        {
+            print("Not top card in ace pile, do nothing");
+            this.selectedCard = null;
+            return;
+        }
+        if (this.selectedCard == card)
+        {
+            this.selectedCard = null;
+            this.solitaire.AttemptToPlayAcePileCard(card);
+            return;
+        }
+        this.selectedCard = card;
     }
     void HandleTableauClick(GameObject card, GameObject column)
     {

@@ -145,6 +145,12 @@ public class Solitaire : MonoBehaviour
 
     }
 
+    public void AttemptToPlayAcePileCard(GameObject card)
+    {
+        print("ATTEMPTING TO PLAY ACE PILE CARD: " + card.name);
+        tableau.GetComponent<Columns>().TryToPlaceCard(card);
+    }
+
     public void AttemptToPlayCardStack(GameObject card)
     {
         print("ATTEMPTING TO PLAY CARD STACK: " + card.name);
