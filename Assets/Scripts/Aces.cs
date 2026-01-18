@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class Columns : MonoBehaviour
+public class Aces : MonoBehaviour
 {
-    public GameObject[] columnObjects;
-
+    public GameObject[] acePiles;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,29 +17,31 @@ public class Columns : MonoBehaviour
 
     public bool TryToPlaceCard(GameObject card)
     {
-        foreach (GameObject column in columnObjects)
+        Selectable cardData = card.GetComponent<Selectable>();
+
+        foreach (GameObject acePile in acePiles)
         {
             GameObject topCard = null;
-            foreach (Transform cardInColumn in column.transform)
+            foreach (Transform cardInPile in acePile.transform)
             {
-                topCard = cardInColumn.gameObject;
+                topCard = cardInPile.gameObject;
             }
-            Selectable cardData = card.GetComponent<Selectable>();
             if (topCard == null)
             {
-                // empty column, only accept kings
-                if (cardData.faceValue == 13)
+                // empty ace pile, only accept aces
+                if (cardData.faceValue == 1)
                 {
-                    card.transform.parent = column.transform;
+                    card.transform.parent = acePile.transform;
                     return true;
                 }
             }
             else
             {
                 Selectable topCardData = topCard.GetComponent<Selectable>();
-                if (((cardData.isBlack && topCardData.isRed) || (cardData.isRed && topCardData.isBlack)) && cardData.faceValue == topCardData.faceValue - 1)
+                if (cardData.suit == topCardData.suit && cardData.faceValue == topCardData.faceValue + 1)
                 {
-                    card.transform.parent = column.transform;
+                    card.transform.parent = acePile.transform;
+                    card.transform.position = acePile.transform.position;
                     return true;
                 }
             }

@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc48e7339c45614d9b0db76e010286a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  selectedCard: {fileID: 0}
 --- !u!114 &12350701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   cardPrefab: {fileID: 5467479199338070701, guid: f4ce4293537c87740987f74dcef7e444, type: 3}
   tableau: {fileID: 804591189}
+  aces: {fileID: 1405129097}
   deckSlot: {fileID: 546494304}
   wasteSlot: {fileID: 2110753999}
 --- !u!4 &12350702
@@ -1412,6 +1414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1053450752}
   - component: {fileID: 1053450753}
+  - component: {fileID: 1053450754}
   m_Layer: 0
   m_Name: Ace Slot 1
   m_TagString: Untagged
@@ -1493,6 +1496,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1053450754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053450751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f66022d4ce9b74db6d336a650cbe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutAcePile
 --- !u!1 &1405129097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1517,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1405129098}
+  - component: {fileID: 1405129099}
   m_Layer: 0
   m_Name: Aces
   m_TagString: Untagged
@@ -1528,6 +1544,23 @@ Transform:
   - {fileID: 1753831264}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1405129099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1405129097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a96dbaa86c2db0479469d049ece1759, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Aces
+  acePiles:
+  - {fileID: 1053450751}
+  - {fileID: 1766975877}
+  - {fileID: 1607343307}
+  - {fileID: 1753831263}
 --- !u!1 &1425823794
 GameObject:
   m_ObjectHideFlags: 0
@@ -1642,6 +1675,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1607343308}
   - component: {fileID: 1607343309}
+  - component: {fileID: 1607343310}
   m_Layer: 0
   m_Name: Ace Slot 3
   m_TagString: Untagged
@@ -1723,6 +1757,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1607343310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607343307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f66022d4ce9b74db6d336a650cbe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutAcePile
 --- !u!1 &1753831263
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1753831264}
   - component: {fileID: 1753831265}
+  - component: {fileID: 1753831266}
   m_Layer: 0
   m_Name: Ace Slot 4
   m_TagString: Untagged
@@ -1814,6 +1861,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1753831266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753831263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f66022d4ce9b74db6d336a650cbe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutAcePile
 --- !u!1 &1766975877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1883,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1766975878}
   - component: {fileID: 1766975879}
+  - component: {fileID: 1766975880}
   m_Layer: 0
   m_Name: Ace Slot 2
   m_TagString: Untagged
@@ -1905,6 +1965,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1766975880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766975877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f66022d4ce9b74db6d336a650cbe4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LayoutAcePile
 --- !u!1 &2110753999
 GameObject:
   m_ObjectHideFlags: 0

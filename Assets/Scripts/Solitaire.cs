@@ -8,10 +8,9 @@ public class Solitaire : MonoBehaviour
 
     public static string[] suits = new string[] {"H", "C", "D", "S"};
     public static string[] faces = new string[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"};
-    public static List<GameObject> deck;
-    public static List<GameObject> cardsInPlay = new List<GameObject>();
     public GameObject cardPrefab;
     public GameObject tableau;
+    public GameObject aces;
     public GameObject deckSlot;
     public GameObject wasteSlot;
 
@@ -29,7 +28,7 @@ public class Solitaire : MonoBehaviour
 
     public void PlayCards()
     {
-        deck = ShuffleDeck(GenerateDeck());
+        List<GameObject> deck = ShuffleDeck(GenerateDeck());
 
         Deal(deck);
     }
@@ -136,6 +135,14 @@ public class Solitaire : MonoBehaviour
     {
         // To be implemented
         print("Attempt to play card: " + card.name);
+        bool wasPlaced = aces.GetComponent<Aces>().TryToPlaceCard(card);
+
+        if (!wasPlaced)
+        {
+            print("Could not place card in aces: " + card.name);
+            wasPlaced = tableau.GetComponent<Columns>().TryToPlaceCard(card);
+        }
+
     }
 
 }

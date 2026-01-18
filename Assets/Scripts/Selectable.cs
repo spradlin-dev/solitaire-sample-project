@@ -30,6 +30,14 @@ public class Selectable : MonoBehaviour
        get => isClub || isSpade;
     }
 
+    public char suit
+    {
+        get 
+        {
+            return this.name[1];
+        }
+    }
+
     public int faceValue
     {
         get 

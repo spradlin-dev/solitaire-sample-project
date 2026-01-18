@@ -106,6 +106,12 @@ public class UserInput : MonoBehaviour
             this.selectedCard = null;
             return;
         }
+        if (this.selectedCard == card)
+        {
+            this.selectedCard = null;
+            this.solitaire.AttemptToPlayCard(card);
+            return;
+        }
         this.selectedCard = card;
     }
 
