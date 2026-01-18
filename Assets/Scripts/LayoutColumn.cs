@@ -24,7 +24,8 @@ public class LayoutColumn : MonoBehaviour
         for (int i = 0; i < columnCards.Length; i++)
         {
             Transform card = columnCards[i].transform;
-            card.position = new Vector3(this.transform.position.x, this.transform.position.y - (0.5f * i), this.transform.position.z - (0.01f * (i + 1)));
+            float yOffset = Mathf.Min(0.5f, 4f / columnCards.Length);
+            card.position = new Vector3(this.transform.position.x, this.transform.position.y - (yOffset * i), this.transform.position.z - (0.01f * (i + 1)));
         }
         if (columnCards.Length > 0)
         {

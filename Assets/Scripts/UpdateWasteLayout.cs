@@ -27,12 +27,12 @@ public class UpdateWasteLayout : MonoBehaviour
             Transform card = wasteCards[i].transform;
             if (i < wasteCards.Length - 3)
             {
-                card.position = new Vector3(this.transform.position.x + -0.6f, this.transform.position.y, this.transform.position.z - (0.01f * (i + 1)));
+                card.position = new Vector3(this.transform.position.x + -1f, this.transform.position.y, this.transform.position.z - (0.01f * (i + 1)));
             }
             else
             {
                 // make the last three cards spread out
-                card.position = new Vector3(this.transform.position.x + -0.6f + (i - (wasteCards.Length - 3)) * 0.3f, this.transform.position.y, this.transform.position.z - (0.01f * (i + 1)));
+                card.position = new Vector3(this.transform.position.x + -1f + (i - (wasteCards.Length - 3)) * 0.4f, this.transform.position.y, this.transform.position.z - (0.01f * (i + 1)));
                 
             }
             card.GetComponent<Selectable>().isFaceUp = true;
