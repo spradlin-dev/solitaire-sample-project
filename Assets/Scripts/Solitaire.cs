@@ -6,8 +6,8 @@ using Unity.VisualScripting;
 public class Solitaire : MonoBehaviour
 {
 
-    public static string[] suits = new string[] {"H", "C", "D", "S"};
-    public static string[] faces = new string[] {"A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K"};
+    public static string[] suits = new string[] { "H", "C", "D", "S" };
+    public static string[] faces = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K" };
     public GameObject cardPrefab;
     public GameObject tableau;
     public GameObject aces;
@@ -23,7 +23,7 @@ public class Solitaire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void PlayCards()
@@ -53,20 +53,20 @@ public class Solitaire : MonoBehaviour
         return shuffledDeck;
     }
 
-    public List<GameObject> GenerateDeck() 
+    public List<GameObject> GenerateDeck()
     {
-     List<GameObject> newDeck = new List<GameObject>();
+        List<GameObject> newDeck = new List<GameObject>();
 
-    foreach (string s in suits)
-    {
-        foreach (string f in faces) 
+        foreach (string s in suits)
         {
+            foreach (string f in faces)
+            {
                 GameObject newCard = Instantiate(cardPrefab);
                 newCard.name = f + s;
-                newDeck.Add(newCard); 
+                newDeck.Add(newCard);
+            }
         }
-     }
-     return newDeck;
+        return newDeck;
     }
 
     void Deal(List<GameObject> deckTodeal)
@@ -89,7 +89,7 @@ public class Solitaire : MonoBehaviour
             }
         }
         // deal remaining cards to deck slot
-        foreach (GameObject card in deckTodeal) 
+        foreach (GameObject card in deckTodeal)
         {
             card.transform.parent = deckSlot.transform;
 
@@ -100,7 +100,7 @@ public class Solitaire : MonoBehaviour
     {
         // To be implemented
         GameObject[] deckCards = new GameObject[] { };
-        
+
         foreach (Transform card in deckSlot.transform)
         {
             deckCards = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Append(deckCards, card.gameObject));
@@ -143,6 +143,12 @@ public class Solitaire : MonoBehaviour
             wasPlaced = tableau.GetComponent<Columns>().TryToPlaceCard(card);
         }
 
+    }
+
+    public void AttemptToPlayCardStack(GameObject card)
+    {
+        print("ATTEMPTING TO PLAY CARD STACK: " + card.name);
+        tableau.GetComponent<Columns>().TryToPlaceCardStack(card.GetComponent<Selectable>().stackedWithSubsequentSiblings);
     }
 
 }

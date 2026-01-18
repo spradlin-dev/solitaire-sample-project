@@ -74,26 +74,26 @@ public class UserInput : MonoBehaviour
     {
         // To be implemented
         print("Tableau clicked: " + card.name + " in " + column.name);
-        // if the clicked card is not the top card in the column, do nothing
 
-        // if the clicked card is face up
-        // select the card and all cards below it
         if (card.GetComponent<Selectable>().isFaceUp == false)
         {
             print("Card is face down, do nothing");
             this.selectedCard = null;
             return;
         }
-        if (this.selectedCard == card)
+        if (this.selectedCard == card && card.GetComponent<Selectable>().isTopCardInContainer)
         {
             this.selectedCard = null;
             // TODO implement moving the card to a valid location
             // Destroy(card);
             this.solitaire.AttemptToPlayCard(card);
             return;
+        } else if (this.selectedCard == card && !card.GetComponent<Selectable>().isTopCardInContainer)
+        {
+            this.solitaire.AttemptToPlayCardStack(card);
+            return;
         }
         this.selectedCard = card;
-        print("IS TOP CARD?? " + card.GetComponent<Selectable>().isTopCardInContainer);
     }
 
     void HandleWasteClick(GameObject card)

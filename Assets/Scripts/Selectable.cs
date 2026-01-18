@@ -1,4 +1,5 @@
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Selectable : MonoBehaviour
@@ -57,6 +58,23 @@ public class Selectable : MonoBehaviour
             int siblingIndex = this.transform.GetSiblingIndex();
             return siblingIndex == parent.childCount - 1;
           
+        }
+    }
+
+    public GameObject[] stackedWithSubsequentSiblings
+    {
+        get
+        {
+            Transform parent = this.transform.parent;
+            int siblingIndex = this.transform.GetSiblingIndex();
+            GameObject[] siblings = new GameObject[] { };
+            // append self and subsequent siblings
+            for (int i = siblingIndex; i < parent.childCount; i++)
+            {
+                Transform sibling = parent.GetChild(i);
+                siblings = Enumerable.ToArray(Enumerable.Append(siblings, sibling.gameObject));
+            }
+            return siblings;
         }
     }
 
