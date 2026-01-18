@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Selectable))]
 public class UpdateSprite : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
@@ -29,7 +31,7 @@ public class UpdateSprite : MonoBehaviour
         
         if (userInput && userInput.selectedCard && this.name == userInput.selectedCard.name)
         {
-            spriteRenderer.color = Color.yellow;
+            spriteRenderer.color = Color.antiqueWhite;
 
         } else
         {
