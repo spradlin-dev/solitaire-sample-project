@@ -53,7 +53,6 @@ public class Columns : MonoBehaviour
     {
         foreach (GameObject column in columnObjects)
         {
-            print("Trying to place stack on column: " + column.name);
             GameObject topCard = null;
             foreach (Transform cardInColumn in column.transform)
             {
@@ -62,7 +61,6 @@ public class Columns : MonoBehaviour
             Selectable bottomCardData = stack[0].GetComponent<Selectable>();
             if (topCard == null)
             {
-                print("Column is empty, test for kings: " + bottomCardData.faceValue);
                 // empty column, only accept kings
                 if (bottomCardData.faceValue == 13)
                 {

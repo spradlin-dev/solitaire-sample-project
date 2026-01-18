@@ -38,9 +38,7 @@ public class UserInput : MonoBehaviour
                 {
                     GameObject clickedObject = hit.collider.gameObject;
                     GameObject parentObject = clickedObject.transform.parent?.gameObject;
-                    Debug.Log("You clicked on " + clickedObject.name);
                     
-                    Debug.Log("parent: " + parentObject?.name);
                     if (clickedObject.name == "Stock Slot")
                     {
                         HandleStockSlotClick(clickedObject);
@@ -86,7 +84,6 @@ public class UserInput : MonoBehaviour
         print("Aces clicked: " + card.name);
         if (!card.GetComponent<Selectable>().isTopCardInContainer)
         {
-            print("Not top card in ace pile, do nothing");
             this.selectedCard = null;
             return;
         }
@@ -100,20 +97,16 @@ public class UserInput : MonoBehaviour
     }
     void HandleTableauClick(GameObject card, GameObject column)
     {
-        // To be implemented
         print("Tableau clicked: " + card.name + " in " + column.name);
 
         if (card.GetComponent<Selectable>().isFaceUp == false)
         {
-            print("Card is face down, do nothing");
             this.selectedCard = null;
             return;
         }
         if (this.selectedCard == card && card.GetComponent<Selectable>().isTopCardInContainer)
         {
             this.selectedCard = null;
-            // TODO implement moving the card to a valid location
-            // Destroy(card);
             this.solitaire.AttemptToPlayCard(card);
             return;
         } else if (this.selectedCard == card && !card.GetComponent<Selectable>().isTopCardInContainer)
@@ -127,11 +120,8 @@ public class UserInput : MonoBehaviour
 
     void HandleWasteClick(GameObject card)
     {
-        // To be implemented
-        print("Waste clicked: " + card.name);
         if (!card.GetComponent<Selectable>().isTopCardInContainer)
         {
-            print("Not top card in waste pile, do nothing");
             this.selectedCard = null;
             return;
         }
