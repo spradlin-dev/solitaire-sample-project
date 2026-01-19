@@ -25,6 +25,7 @@ public class LayoutAcePile : MonoBehaviour
         {
             Transform card = pileCards[i].transform;
             card.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - (0.01f * (i + 1)));
+            card.GetComponent<Selectable>().isFaceUp = true;
         }
     }
 }

@@ -16,13 +16,7 @@ public class Solitaire : MonoBehaviour
     public GameObject wasteSlot;
     private List<GameObject> cardsInPlay;
     public bool isInitialized = false;
-    private int _solverCount = 0;
-    private static uint currentSeed = (uint)System.DateTime.Now.Ticks;
-
-    public int solverCount
-    {
-        get => _solverCount;
-    }
+    private static uint currentSeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,12 +32,14 @@ public class Solitaire : MonoBehaviour
 
     public void NewDeal()
     {
+        StopAllCoroutines();
         currentSeed = (uint)System.DateTime.Now.Ticks;
         DealWithSeed(currentSeed);
     }
 
     public void RestartDeal()
     {
+        StopAllCoroutines();
         DealWithSeed(currentSeed);
     }
 
@@ -116,14 +112,7 @@ public class Solitaire : MonoBehaviour
     }
     public void Solve()
     {
-        if (solverCount == 0)
-        {
-            StartCoroutine(AttemptSolve());
-        }
-    }
-
-    private void ForceSolve()
-    {
+        StopCoroutine("AttemptSolve");
         StartCoroutine(AttemptSolve());
     }
 
@@ -144,7 +133,6 @@ public class Solitaire : MonoBehaviour
 
     IEnumerator AttemptSolve()
     {
-        _solverCount++;
         WaitForSeconds waitforSeconds = new WaitForSeconds(0.2f);
         GameObject topWasteCard = null;
         if (wasteSlot.transform.childCount != 0)
@@ -158,6 +146,7 @@ public class Solitaire : MonoBehaviour
             {
                 yield return waitforSeconds;
                 Solve();
+                yield break;
             }
         }
         
@@ -176,9 +165,9 @@ public class Solitaire : MonoBehaviour
             {
                 yield return waitforSeconds;
                 Solve();
+                yield break;
             }
         }
-        _solverCount--;
     }
 
     public void Deal3ToWaste()
