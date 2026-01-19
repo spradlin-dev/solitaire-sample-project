@@ -16,7 +16,13 @@ public class Solitaire : MonoBehaviour
     public GameObject wasteSlot;
     private List<GameObject> cardsInPlay;
     public bool isInitialized = false;
+    private int _solverCount = 0;
     private static uint currentSeed = (uint)System.DateTime.Now.Ticks;
+
+    public int solverCount
+    {
+        get => _solverCount;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -110,6 +116,14 @@ public class Solitaire : MonoBehaviour
     }
     public void Solve()
     {
+        if (solverCount == 0)
+        {
+            StartCoroutine(AttemptSolve());
+        }
+    }
+
+    private void ForceSolve()
+    {
         StartCoroutine(AttemptSolve());
     }
 
@@ -130,43 +144,41 @@ public class Solitaire : MonoBehaviour
 
     IEnumerator AttemptSolve()
     {
+        _solverCount++;
         WaitForSeconds waitforSeconds = new WaitForSeconds(0.2f);
         GameObject topWasteCard = null;
-        foreach (Transform card in wasteSlot.transform) {
-            topWasteCard = card.gameObject;
-        }
-        if (topWasteCard != null)
+        if (wasteSlot.transform.childCount != 0)
         {
-            print("playing waste card"); print(topWasteCard);
+            foreach (Transform card in wasteSlot.transform)
+            {
+                topWasteCard = card.gameObject;
+            }
+           
             if (aces.GetComponent<Aces>().TryToPlaceCard(topWasteCard))
             {
                 yield return waitforSeconds;
                 Solve();
             }
         }
+        
         foreach (GameObject column in tableau.GetComponent<Columns>().columnObjects)
         {
-            yield return waitforSeconds;
-
             GameObject topCard = null;
-
+            if (column.transform.childCount == 0)
+            {
+                continue;
+            }
             foreach (Transform cardInColumn in column.transform)
             {
                 topCard = cardInColumn.gameObject;
             }
-            if (topCard == null)
-            {
-                continue;
-            }
-            print("playing card"); print(topCard);
             if (aces.GetComponent<Aces>().TryToPlaceCard(topCard))
             {
                 yield return waitforSeconds;
                 Solve();
             }
-            // attempt to play card
-
         }
+        _solverCount--;
     }
 
     public void Deal3ToWaste()
@@ -207,12 +219,10 @@ public class Solitaire : MonoBehaviour
     public bool AttemptToPlayCard(GameObject card)
     {
         // To be implemented
-        print("Attempt to play card: " + card.name);
         bool wasPlaced = aces.GetComponent<Aces>().TryToPlaceCard(card);
 
         if (!wasPlaced)
         {
-            print("Could not place card in aces: " + card.name);
             wasPlaced = tableau.GetComponent<Columns>().TryToPlaceCard(card);
         }
         return wasPlaced;
@@ -221,13 +231,11 @@ public class Solitaire : MonoBehaviour
 
     public void AttemptToPlayAcePileCard(GameObject card)
     {
-        print("ATTEMPTING TO PLAY ACE PILE CARD: " + card.name);
         tableau.GetComponent<Columns>().TryToPlaceCard(card);
     }
 
     public void AttemptToPlayCardStack(GameObject card)
     {
-        print("ATTEMPTING TO PLAY CARD STACK: " + card.name);
         tableau.GetComponent<Columns>().TryToPlaceCardStack(card.GetComponent<Selectable>().stackedWithSubsequentSiblings);
     }
 

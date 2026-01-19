@@ -21,29 +21,28 @@ public class Aces : MonoBehaviour
 
         foreach (GameObject acePile in acePiles)
         {
-            GameObject topCard = null;
-            foreach (Transform cardInPile in acePile.transform)
+            if (acePile.transform.childCount == 0)
             {
-                topCard = cardInPile.gameObject;
-            }
-            if (topCard == null)
-            {
-                // empty ace pile, only accept aces
                 if (cardData.faceValue == 1)
-                {
-                    card.transform.parent = acePile.transform;
-                    return true;
-                }
-            }
-            else
-            {
-                Selectable topCardData = topCard.GetComponent<Selectable>();
-                if (cardData.suit == topCardData.suit && cardData.faceValue == topCardData.faceValue + 1)
                 {
                     card.transform.parent = acePile.transform;
                     card.transform.position = acePile.transform.position;
                     return true;
                 }
+                continue;
+            }
+            GameObject topCard = null;
+            foreach (Transform cardInPile in acePile.transform)
+            {
+                topCard = cardInPile.gameObject;
+            }
+            
+            Selectable topCardData = topCard.GetComponent<Selectable>();
+            if (cardData.suit == topCardData.suit && cardData.faceValue == topCardData.faceValue + 1)
+            {
+                card.transform.parent = acePile.transform;
+                card.transform.position = acePile.transform.position;
+                return true;
             }
         }
         return false;
