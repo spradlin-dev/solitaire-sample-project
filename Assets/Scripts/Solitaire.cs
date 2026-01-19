@@ -130,7 +130,7 @@ public class Solitaire : MonoBehaviour
 
     IEnumerator AttemptSolve()
     {
-        WaitForSeconds waitforSeconds = new WaitForSeconds(0.05f);
+        WaitForSeconds waitforSeconds = new WaitForSeconds(0.2f);
         GameObject topWasteCard = null;
         foreach (Transform card in wasteSlot.transform) {
             topWasteCard = card.gameObject;
