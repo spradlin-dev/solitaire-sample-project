@@ -81,7 +81,7 @@ public class Solitaire : MonoBehaviour
 
     IEnumerator Deal(List<GameObject> deckTodeal)
     {
-        WaitForSeconds waitforSeconds = new WaitForSeconds(0.05f);
+        WaitForSeconds waitforSeconds = new WaitForSeconds(0.03f);
         List<GameObject> deckToDealCopy = new List<GameObject>(deckTodeal);
         // deal 28 cards to tableau
         int columnLength = tableau.GetComponent<Columns>().columnObjects.Length;
