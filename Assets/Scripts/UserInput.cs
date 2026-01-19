@@ -90,7 +90,7 @@ public class UserInput : MonoBehaviour
 
     public void ResetBoard()
     {
-        solitaire.PlayCards();
+        solitaire.NewDeal();
         this.selectedCard = null;
     }
 

@@ -16,11 +16,12 @@ public class Solitaire : MonoBehaviour
     public GameObject wasteSlot;
     private List<GameObject> cardsInPlay;
     public bool isInitialized = false;
+    private static uint currentSeed = (uint)System.DateTime.Now.Ticks;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PlayCards();
+        NewDeal();
     }
 
     // Update is called once per frame
@@ -29,29 +30,26 @@ public class Solitaire : MonoBehaviour
 
     }
 
-    public void PlayCards()
+    public void NewDeal()
     {
-        isInitialized = false;
-        if (cardsInPlay != null) {             // clear existing cards
-            foreach (GameObject card in cardsInPlay)
-            {
-                Destroy(card);
-            }
-        }
-        cardsInPlay = ShuffleDeck(GenerateDeck());
-
-        StartCoroutine(Deal(cardsInPlay));
+        currentSeed = (uint)System.DateTime.Now.Ticks;
+        DealWithSeed(currentSeed);
     }
 
-    public static List<GameObject> ShuffleDeck(List<GameObject> unshuffledDeck)
+    public void RestartDeal()
     {
-        System.Random r = new System.Random();
+        DealWithSeed(currentSeed);
+    }
+
+    public static List<GameObject> ShuffleDeck(List<GameObject> unshuffledDeck, uint seed)
+    {
+        Unity.Mathematics.Random r = new Unity.Mathematics.Random(seed);
         List<GameObject> shuffledDeck = new List<GameObject>();
         //Step 1: For each remaining unshuffled letter
         for (int n = unshuffledDeck.Count; n > 0; n--)
         {
             //Step 2: Randomly select one of the remaining unshuffled letters
-            int k = r.Next(n);
+            int k = r.NextInt(n);
 
             //Step 3: Place the selected letter in the shuffled collection
             GameObject temp = unshuffledDeck[k];
@@ -115,6 +113,21 @@ public class Solitaire : MonoBehaviour
         StartCoroutine(AttemptSolve());
     }
 
+    public void DealWithSeed(uint seed)
+    {
+        isInitialized = false;
+        if (cardsInPlay != null)
+        {             // clear existing cards
+            foreach (GameObject card in cardsInPlay)
+            {
+                Destroy(card);
+            }
+        }
+        cardsInPlay = ShuffleDeck(GenerateDeck(), seed);
+
+        StartCoroutine(Deal(cardsInPlay));
+    }
+
     IEnumerator AttemptSolve()
     {
         WaitForSeconds waitforSeconds = new WaitForSeconds(0.05f);
@@ -124,10 +137,10 @@ public class Solitaire : MonoBehaviour
         }
         if (topWasteCard != null)
         {
-            yield return waitforSeconds;
             print("playing waste card"); print(topWasteCard);
             if (aces.GetComponent<Aces>().TryToPlaceCard(topWasteCard))
             {
+                yield return waitforSeconds;
                 Solve();
             }
         }
@@ -148,6 +161,7 @@ public class Solitaire : MonoBehaviour
             print("playing card"); print(topCard);
             if (aces.GetComponent<Aces>().TryToPlaceCard(topCard))
             {
+                yield return waitforSeconds;
                 Solve();
             }
             // attempt to play card
